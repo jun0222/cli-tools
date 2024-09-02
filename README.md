@@ -21,3 +21,4 @@ sh ./autocommit_and_push/bash.sh
 - [ ] 便利ツール
 - [ ] md2html
 - [ ] html をビルドするツール
+- [ ] imagemagick
