@@ -24,3 +24,4 @@ sh ./autocommit_and_push/bash.sh
 - [ ] imagemagick
 - [ ] 既存のツールを再利用しやすくしてこの repo にまとめる
 - [ ] shell 系の教材インプットをこちらにまとめる
+- [ ] 乱数やテストデータなどのツール
