@@ -22,3 +22,4 @@ sh ./autocommit_and_push/bash.sh
 - [ ] md2html
 - [ ] html をビルドするツール
 - [ ] imagemagick
+- [ ] 既存のツールを再利用しやすくしてこの repo にまとめる
