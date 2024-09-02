@@ -3,6 +3,6 @@
 # Gitに追加
 git add .
 
-git commit -m "autocommit: current dir commit and push"
+git commit -m "autocommit"
 
 git push origin HEAD
