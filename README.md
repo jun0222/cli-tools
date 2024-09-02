@@ -1,3 +1,11 @@
+## コマンド
+
+このリポジトリの自動コミット&&プッシュ
+
+```bash
+sh ./autocommit_and_push/bash.sh
+```
+
 ## TODO
 
 - [ ] pre-commit
