@@ -23,3 +23,4 @@ sh ./autocommit_and_push/bash.sh
 - [ ] html をビルドするツール
 - [ ] imagemagick
 - [ ] 既存のツールを再利用しやすくしてこの repo にまとめる
+- [ ] shell 系の教材インプットをこちらにまとめる
