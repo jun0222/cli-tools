@@ -13,13 +13,17 @@ def create_dummy_image(width, height, text):
         font = ImageFont.load_default()
 
     # テキストを描画
-    text_width, text_height = draw.textsize(text, font=font)
+    text_bbox = draw.textbbox((0, 0), text, font=font)
+    text_width = text_bbox[2] - text_bbox[0]
+    text_height = text_bbox[3] - text_bbox[1]
     position = ((width - text_width) / 2, (height - text_height) / 2)
     draw.text(position, text, fill='black', font=font)
 
     # サイズ情報を描画
     size_text = f"{width}x{height}"
-    size_width, size_height = draw.textsize(size_text, font=font)
+    size_bbox = draw.textbbox((0, 0), size_text, font=font)
+    size_width = size_bbox[2] - size_bbox[0]
+    size_height = size_bbox[3] - size_bbox[1]
     size_position = ((width - size_width) / 2, height - size_height - 10)
     draw.text(size_position, size_text, fill='black', font=font)
 

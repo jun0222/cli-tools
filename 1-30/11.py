@@ -27,9 +27,12 @@ def resize_image(input_path, output_path, target_size):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("使用方法: python script.py <入力画像パス> <出力画像パス> <目標サイズ>")
+        print("使用方法: python3 ./1-30/11.py <入力画像パス> <出力画像パス> <目標サイズ>")
     else:
         input_path = sys.argv[1]
         output_path = sys.argv[2]
         target_size = int(sys.argv[3])
         resize_image(input_path, output_path, target_size)
+
+# 使用例:
+# python3 ./1-30/11.py input.jpg output.jpg 800
