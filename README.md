@@ -30,6 +30,8 @@ sh ./1-30/1.sh
 | 10.sh      | 乱数生成ツール                                                                                             | Bash   |
 | 11.py      | 画像リサイズツール                                                                                         | Python |
 | 12.py      | ダミー画像生成ツール                                                                                       | Python |
+| 13.js      | console.log を出力する                                                                                     | Node   |
+| 14.sh      | 指定コマンドを指定回数実行する                                                                             | Bash   |
 
 ## TODO
 
