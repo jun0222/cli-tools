@@ -32,13 +32,13 @@ sh ./1-30/1.sh
 | 12.py      | ダミー画像生成ツール                                                                                       | Python |
 | 13.js      | console.log を出力する                                                                                     | Node   |
 | 14.sh      | 指定コマンドを指定回数実行する                                                                             | Bash   |
+| 15.sh      | 指定拡張子の新規ファイルを作成する                                                                         | Bash   |
 
 ## TODO
 
 - [ ] pre-commit
 - [ ] ci 系
 - [ ] 便利ツール
-- [ ] md2html
 - [ ] html をビルドするツール
 - [ ] imagemagick
 - [ ] 既存のツールを再利用しやすくしてこの repo にまとめる
