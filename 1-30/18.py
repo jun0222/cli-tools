@@ -53,3 +53,6 @@ if __name__ == "__main__":
 
     # 動画を圧縮
     compress_video(args.input, args.output, target_resolution=resolution, bitrate=args.bitrate)
+
+# 実行例
+#  python ./1-30/18.py /path/to/input.mov /path/to/output.mov
