@@ -39,8 +39,9 @@ sh ./1-30/1.sh
 | 19.py      | markdown を html に変換                                                                                    | Python |
 | 20.sh      | markdown の改行後に半角スペース 2 つ追加                                                                   | Bash   |
 | 21.sh      | 1 ファイルずつコミットしてプッシュ                                                                         | Bash   |
-| 22.sh      | ディレクトリ整理                                                     | Bash   |
-| 23.sh      | id,password書き込みツール                                                                                       | Bash   |  
+| 22.sh      | ディレクトリ整理                                                                                           | Bash   |
+| 23.sh      | id,password 書き込みツール                                                                                 | Bash   |
+| 24.sh      | メモ用 cli クライアント                                                                                    | Bash   |
 
 ## TODO
 
