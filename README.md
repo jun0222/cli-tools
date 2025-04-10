@@ -42,6 +42,7 @@ sh ./1-30/1.sh
 | 22.sh      | ディレクトリ整理                                                                                           | Bash   |
 | 23.sh      | id,password 書き込みツール                                                                                 | Bash   |
 | 24.sh      | メモ用 cli クライアント                                                                                    | Bash   |
+| 25.sh      | echoカラーサンプル                                                                   | Bash   |
 
 ## TODO
 
