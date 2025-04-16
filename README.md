@@ -44,6 +44,7 @@ sh ./1-30/1.sh
 | 24.sh      | メモ用 cli クライアント                                                                                    | Bash   |
 | 25.sh      | echo カラーサンプル                                                                                        | Bash   |
 | 26.sh      | echo カラーコマンド生成                                                                                    | Bash   |
+| 27.py      | youtube 動画 DL                                                                                            | Bash   |
 
 ## TODO
 
