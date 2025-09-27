@@ -1,3 +1,7 @@
+# 実行コマンド: python 1-30/27/main.py --url-file 1-30/27/urls.txt 
+# TODO: 実行後、 open downloadsする
+# TODO: urls.txtのコメント機能
+
 import argparse
 import yt_dlp # python3 -m pip install yt-dlp --break-system-packages でインストール
 import os
