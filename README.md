@@ -50,4 +50,5 @@ source venv/bin/activate
 | 24.sh      | メモ用 cli クライアント                                                                                    | Bash   |
 | 25.sh      | echo カラーサンプル                                                                                        | Bash   |
 | 26.sh      | echo カラーコマンド生成                                                                                    | Bash   |
-| 27.py      | youtube 動画 DL                                                                                            | Bash   |
+| 27         | YouTube動画DL                                                                                              | Python |
+| 30.py      | selenium-webdriverによる自動テスト                                                                         | Python |
