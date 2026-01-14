@@ -2,3 +2,5 @@ venv/lib/
 venv/bin/
 venv/*
 downloads/*
+.idea
+1-30/27

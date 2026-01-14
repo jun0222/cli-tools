@@ -51,14 +51,3 @@ source venv/bin/activate
 | 25.sh      | echo カラーサンプル                                                                                        | Bash   |
 | 26.sh      | echo カラーコマンド生成                                                                                    | Bash   |
 | 27.py      | youtube 動画 DL                                                                                            | Bash   |
-
-## TODO
-
-- [ ] pre-commit
-- [ ] ci 系
-- [ ] 便利ツール
-- [ ] html をビルドするツール
-- [ ] imagemagick
-- [ ] 既存のツール(cui, gui 問わず)を再利用しやすくしてこの repo にまとめる
-- [ ] shell 系の教材インプットをこちらにまとめる
-- [ ] 乱数やテストデータなどのツール
