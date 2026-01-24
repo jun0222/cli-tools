@@ -51,4 +51,5 @@ source venv/bin/activate
 | 25.sh      | echo カラーサンプル                                                                                        | Bash   |
 | 26.sh      | echo カラーコマンド生成                                                                                    | Bash   |
 | 27         | YouTube動画DL                                                                                              | Python |
+| 28         | Q&Aリストから問題→n秒後に答えを読み上げる音声ファイル生成                                                  | Python |
 | 30.py      | selenium-webdriverによる自動テスト                                                                         | Python |
