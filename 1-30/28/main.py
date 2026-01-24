@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """問題と答えのリストから、問題→n秒後に答えを読み上げる音声ファイルを生成するCLIツール"""
-
+# python 1-30/28/main.py
 import argparse
 import os
 import struct
@@ -80,6 +80,8 @@ def main():
     )
     parser.add_argument("-o", "--output", default=os.path.join(SCRIPT_DIR, "output.mp3"), help="出力ファイルパス（デフォルト: 同ディレクトリのoutput.mp3）")
     parser.add_argument("-d", "--delay", type=int, default=5, help="問題と答えの間の秒数（デフォルト: 5）")
+    parser.add_argument("-m", "--mode", choices=["normal", "q", "reverse"], default="normal",
+                        help="モード: normal=問題→答え, q=問題のみ, reverse=答え→問題（デフォルト: normal）")
     parser.add_argument("--rate", type=int, default=200, help="読み上げ速度（デフォルト: 200）")
     args = parser.parse_args()
 
@@ -101,7 +103,8 @@ def main():
         return 1
 
     print(f"{len(pairs)}個のQ&Aペアを読み込みました。")
-    print(f"問題と答えの間隔: {args.delay}秒")
+    mode_label = {"normal": "問題→答え", "q": "問題のみ", "reverse": "答え→問題"}
+    print(f"モード: {mode_label[args.mode]}、間隔: {args.delay}秒")
 
     sample_rate = 22050
     channels = 1
@@ -118,15 +121,12 @@ def main():
             text_to_aiff(question, q_aiff, rate=args.rate)
             aiff_to_wav(q_aiff, q_wav, sample_rate, channels)
 
-            # 無音生成
-            silence_path = os.path.join(tmpdir, f"silence_{i}.wav")
-            create_silence_wav(silence_path, args.delay, sample_rate, channels)
-
             # 答えの音声生成
             a_aiff = os.path.join(tmpdir, f"a_{i}.aiff")
             a_wav = os.path.join(tmpdir, f"a_{i}.wav")
-            text_to_aiff(answer, a_aiff, rate=args.rate)
-            aiff_to_wav(a_aiff, a_wav, sample_rate, channels)
+            if args.mode != "q":
+                text_to_aiff(answer, a_aiff, rate=args.rate)
+                aiff_to_wav(a_aiff, a_wav, sample_rate, channels)
 
             # ペア間の無音（最初以外）
             if i > 0:
@@ -134,14 +134,25 @@ def main():
                 create_silence_wav(gap_path, 2, sample_rate, channels)
                 all_segments.append(gap_path)
 
-            all_segments.append(q_wav)
-            all_segments.append(silence_path)
-            all_segments.append(a_wav)
+            # モードに応じてセグメント構成を変える
+            silence_path = os.path.join(tmpdir, f"silence_{i}.wav")
+            create_silence_wav(silence_path, args.delay, sample_rate, channels)
 
-            # 答えの後の間（1秒）
-            after_answer = os.path.join(tmpdir, f"after_{i}.wav")
-            create_silence_wav(after_answer, 1, sample_rate, channels)
-            all_segments.append(after_answer)
+            if args.mode == "q":
+                all_segments.append(q_wav)
+            elif args.mode == "reverse":
+                all_segments.append(a_wav)
+                all_segments.append(silence_path)
+                all_segments.append(q_wav)
+            else:
+                all_segments.append(q_wav)
+                all_segments.append(silence_path)
+                all_segments.append(a_wav)
+
+            # 末尾の間（1秒）
+            after_path = os.path.join(tmpdir, f"after_{i}.wav")
+            create_silence_wav(after_path, 1, sample_rate, channels)
+            all_segments.append(after_path)
 
         # 全セグメントを結合
         combined_wav = os.path.join(tmpdir, "combined.wav")
