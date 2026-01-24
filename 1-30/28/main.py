@@ -8,8 +8,6 @@ import subprocess
 import tempfile
 import wave
 
-import pyttsx3
-
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -31,10 +29,14 @@ def parse_input(filepath):
     return pairs
 
 
-def text_to_wav(engine, text, output_path):
-    """pyttsx3でテキストをWAVファイルに変換"""
-    engine.save_to_file(text, output_path)
-    engine.runAndWait()
+def text_to_aiff(text, output_path, voice="Kyoko", rate=200):
+    """macOS sayコマンドでテキストをAIFFファイルに変換"""
+    result = subprocess.run(
+        ["say", "-v", voice, "-r", str(rate), "-o", output_path, text],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        print(f"警告: say コマンドエラー: {result.stderr}")
 
 
 def create_silence_wav(output_path, duration_sec, sample_rate=22050, channels=1, sample_width=2):
@@ -63,8 +65,8 @@ def concatenate_wavs(wav_files, output_path):
                 out_wf.writeframes(wf.readframes(wf.getnframes()))
 
 
-def normalize_wav(input_path, output_path, sample_rate=22050, channels=1):
-    """ffmpegでWAVを統一フォーマットに変換"""
+def aiff_to_wav(input_path, output_path, sample_rate=22050, channels=1):
+    """ffmpegでAIFFをWAVに変換（フォーマット統一）"""
     subprocess.run(
         ["ffmpeg", "-y", "-i", input_path, "-ar", str(sample_rate),
          "-ac", str(channels), "-sample_fmt", "s16", output_path],
@@ -78,7 +80,7 @@ def main():
     )
     parser.add_argument("-o", "--output", default=os.path.join(SCRIPT_DIR, "output.mp3"), help="出力ファイルパス（デフォルト: 同ディレクトリのoutput.mp3）")
     parser.add_argument("-d", "--delay", type=int, default=5, help="問題と答えの間の秒数（デフォルト: 5）")
-    parser.add_argument("--rate", type=int, default=150, help="読み上げ速度（デフォルト: 150）")
+    parser.add_argument("--rate", type=int, default=200, help="読み上げ速度（デフォルト: 200）")
     args = parser.parse_args()
 
     input_path = os.path.join(SCRIPT_DIR, "input.txt")
@@ -101,17 +103,6 @@ def main():
     print(f"{len(pairs)}個のQ&Aペアを読み込みました。")
     print(f"問題と答えの間隔: {args.delay}秒")
 
-    engine = pyttsx3.init()
-    engine.setProperty("rate", args.rate)
-
-    # 日本語の音声を探して設定
-    voices = engine.getProperty("voices")
-    for voice in voices:
-        if "ja-JP" in voice.id or "ja_JP" in voice.id:
-            engine.setProperty("voice", voice.id)
-            print(f"音声: {voice.id}")
-            break
-
     sample_rate = 22050
     channels = 1
 
@@ -121,34 +112,42 @@ def main():
         for i, (question, answer) in enumerate(pairs):
             print(f"  [{i+1}/{len(pairs)}] 処理中: {question[:30]}...")
 
-            q_raw = os.path.join(tmpdir, f"q_{i}_raw.aiff")
-            q_norm = os.path.join(tmpdir, f"q_{i}.wav")
-            text_to_wav(engine, question, q_raw)
-            normalize_wav(q_raw, q_norm, sample_rate, channels)
+            # 問題の音声生成
+            q_aiff = os.path.join(tmpdir, f"q_{i}.aiff")
+            q_wav = os.path.join(tmpdir, f"q_{i}.wav")
+            text_to_aiff(question, q_aiff, rate=args.rate)
+            aiff_to_wav(q_aiff, q_wav, sample_rate, channels)
 
+            # 無音生成
             silence_path = os.path.join(tmpdir, f"silence_{i}.wav")
             create_silence_wav(silence_path, args.delay, sample_rate, channels)
 
-            a_raw = os.path.join(tmpdir, f"a_{i}_raw.aiff")
-            a_norm = os.path.join(tmpdir, f"a_{i}.wav")
-            text_to_wav(engine, answer, a_raw)
-            normalize_wav(a_raw, a_norm, sample_rate, channels)
+            # 答えの音声生成
+            a_aiff = os.path.join(tmpdir, f"a_{i}.aiff")
+            a_wav = os.path.join(tmpdir, f"a_{i}.wav")
+            text_to_aiff(answer, a_aiff, rate=args.rate)
+            aiff_to_wav(a_aiff, a_wav, sample_rate, channels)
 
+            # ペア間の無音（最初以外）
             if i > 0:
                 gap_path = os.path.join(tmpdir, f"gap_{i}.wav")
                 create_silence_wav(gap_path, 2, sample_rate, channels)
                 all_segments.append(gap_path)
 
-            all_segments.append(q_norm)
+            all_segments.append(q_wav)
             all_segments.append(silence_path)
-            all_segments.append(a_norm)
+            all_segments.append(a_wav)
 
+        # 全セグメントを結合
         combined_wav = os.path.join(tmpdir, "combined.wav")
         concatenate_wavs(all_segments, combined_wav)
 
+        # MP3に変換（音量正規化付き）
         print(f"音声ファイルを出力中: {args.output}")
         subprocess.run(
-            ["ffmpeg", "-y", "-i", combined_wav, "-codec:a", "libmp3lame", "-q:a", "2", args.output],
+            ["ffmpeg", "-y", "-i", combined_wav,
+             "-filter:a", "loudnorm=I=-14:TP=-1:LRA=11",
+             "-codec:a", "libmp3lame", "-q:a", "2", args.output],
             capture_output=True,
         )
 
