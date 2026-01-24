@@ -134,9 +134,16 @@ def main():
                 create_silence_wav(gap_path, 2, sample_rate, channels)
                 all_segments.append(gap_path)
 
-            # モードに応じてセグメント構成を変える
+            # 考える対象の文章長に応じて待ち時間を調整
+            # 10文字を基準に、長いほど待ち時間を伸ばす
+            if args.mode == "reverse":
+                target_len = len(question)
+            else:
+                target_len = len(answer)
+            delay_sec = args.delay * max(1.0, target_len / 10)
+
             silence_path = os.path.join(tmpdir, f"silence_{i}.wav")
-            create_silence_wav(silence_path, args.delay, sample_rate, channels)
+            create_silence_wav(silence_path, delay_sec, sample_rate, channels)
 
             if args.mode == "q":
                 all_segments.append(q_wav)
