@@ -138,6 +138,11 @@ def main():
             all_segments.append(silence_path)
             all_segments.append(a_wav)
 
+            # 答えの後の間（1秒）
+            after_answer = os.path.join(tmpdir, f"after_{i}.wav")
+            create_silence_wav(after_answer, 1, sample_rate, channels)
+            all_segments.append(after_answer)
+
         # 全セグメントを結合
         combined_wav = os.path.join(tmpdir, "combined.wav")
         concatenate_wavs(all_segments, combined_wav)
