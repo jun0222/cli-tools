@@ -78,12 +78,15 @@ def main():
     parser = argparse.ArgumentParser(
         description="問題と答えのリストから音声ファイルを生成します"
     )
-    parser.add_argument("-o", "--output", default=os.path.join(SCRIPT_DIR, "output.mp3"), help="出力ファイルパス（デフォルト: 同ディレクトリのoutput.mp3）")
+    parser.add_argument("-o", "--output", default="output.mp3", help="出力ファイル名（デフォルト: output.mp3）")
     parser.add_argument("-d", "--delay", type=int, default=5, help="問題と答えの間の秒数（デフォルト: 5）")
     parser.add_argument("-m", "--mode", choices=["normal", "q", "reverse"], default="normal",
                         help="モード: normal=問題→答え, q=問題のみ, reverse=答え→問題（デフォルト: normal）")
     parser.add_argument("--rate", type=int, default=200, help="読み上げ速度（デフォルト: 200）")
     args = parser.parse_args()
+
+    # 出力先を~/Desktopに設定
+    output_path = os.path.join(os.path.expanduser("~/Desktop"), args.output)
 
     input_path = os.path.join(SCRIPT_DIR, "input.txt")
     if not os.path.exists(input_path):
@@ -166,11 +169,11 @@ def main():
         concatenate_wavs(all_segments, combined_wav)
 
         # MP3に変換（音量正規化付き）
-        print(f"音声ファイルを出力中: {args.output}")
+        print(f"音声ファイルを出力中: {output_path}")
         subprocess.run(
             ["ffmpeg", "-y", "-i", combined_wav,
              "-filter:a", "loudnorm=I=-14:TP=-1:LRA=11",
-             "-codec:a", "libmp3lame", "-q:a", "2", args.output],
+             "-codec:a", "libmp3lame", "-q:a", "2", output_path],
             capture_output=True,
         )
 
