@@ -20,6 +20,12 @@ sh ./1-30/1.sh
 source venv/bin/activate
 ```
 
+**pip install**
+
+```bash
+pip install -r requirements.txt
+```
+
 ## ツールの説明
 
 | ファイル名 | 概要                                                                                                       | 言語   |

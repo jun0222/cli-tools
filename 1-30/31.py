@@ -8,6 +8,8 @@ import tempfile
 from gtts import gTTS
 from pydub import AudioSegment
 
+# 30秒間隔で10回繰り返し（詳細出力付き）
+# python 1-30/31.py 30 10 -v
 
 def generate_number_speech(number, lang='ja'):
     """数字を音声で読み上げたMP3を生成"""
