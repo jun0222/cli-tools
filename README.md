@@ -54,3 +54,4 @@ source venv/bin/activate
 | 28         | Q&Aリストから問題→n秒後に答えを読み上げる音声ファイル生成                                                  | Python |
 | 29.py      | MP3ファイルを指定回数繰り返した音声ファイルを生成                                                           | Python |
 | 30.py      | selenium-webdriverによる自動テスト                                                                         | Python |
+| 31.py      | インターバル音声ファイル生成（指定秒数ごとに数字を読み上げる）                                               | Python |
