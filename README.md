@@ -26,6 +26,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## スライド生成（Marp）
+
+`slides/`ディレクトリ（gitignore済み）にMarkdownファイルを置き、`slides-output/`にPDFを出力する。
+
+```bash
+# 全mdファイルをPDFに変換
+npm run slides
+
+# ファイル変更を検知して自動再生成
+npm run slides:watch
+```
+
+Markdownのfrontmatterに`marp: true`を記述するだけで使用可能。
+
 ## ツールの説明
 
 | ファイル名 | 概要                                                                                                       | 言語   |
