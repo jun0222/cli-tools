@@ -6,3 +6,6 @@ downloads/*
 1-30/27
 1-30/28/input.txt
 1-30/28/output.mp3
+slides/
+slides-output/
+node_modules/

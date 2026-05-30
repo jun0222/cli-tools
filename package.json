@@ -1,6 +1,13 @@
 {
+  "scripts": {
+    "slides": "marp slides/ --output slides-output/ --pdf --allow-local-files",
+    "slides:watch": "marp slides/ --output slides-output/ --pdf --allow-local-files --watch"
+  },
   "dependencies": {
     "highlight": "^0.2.4",
     "marked": "^14.1.0"
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.4.0"
   }
 }
